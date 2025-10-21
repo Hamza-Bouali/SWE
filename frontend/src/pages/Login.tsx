@@ -1,5 +1,7 @@
 import { useState, FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { useAuth } from '../services/useAuth' // added
+
 
 export default function Login() {
   return (
@@ -47,6 +49,7 @@ function Form() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const {login} = useAuth() 
 
   function validate() {
     if (!email.trim()) return 'Email is required'
@@ -55,7 +58,7 @@ function Form() {
     return null
   }
 
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setError(null)
     const validationError = validate()
@@ -65,11 +68,14 @@ function Form() {
     }
 
     setLoading(true)
-    // simulate request
-    setTimeout(() => {
-      setLoading(false)
+    try {
+      await login(email, password)
       navigate('/dashboard')
-    }, 800)
+    } catch (err: any) {
+      setError(err?.message || 'Failed to sign in')
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
