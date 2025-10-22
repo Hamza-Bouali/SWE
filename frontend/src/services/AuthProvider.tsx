@@ -1,4 +1,4 @@
-import { useState, createContext } from "react";
+import { useState, createContext, type ReactNode } from "react";
 
 type AuthUser = {
   email: string;

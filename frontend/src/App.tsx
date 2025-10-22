@@ -1,5 +1,6 @@
 import { Route, Routes, Navigate } from 'react-router'
 import Login from './pages/Login'
+import Logout from './pages/logout'
 import Dashboard from './pages/Dashboard'
 import { ProtectedRoute } from './services/ProtectedRoutes'
 
@@ -16,6 +17,16 @@ function App() {
           </ProtectedRoute>
         }
       />
+
+      <Route
+        path="/logout"
+        element={
+          <ProtectedRoute>
+            <Logout />
+          </ProtectedRoute>
+        }
+      />
+
       <Route path="*" element={<p>There's nothing here: 404!</p>} />
     </Routes>
   )

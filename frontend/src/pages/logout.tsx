@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../services/useAuth' // added
 
 
-export default function Login() {
+export default function Logout() {
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-gradient-to-br from-slate-50 to-slate-100">
       <Container />
@@ -12,6 +12,9 @@ export default function Login() {
 }
 
 function Container() {
+    const {logout} = useAuth() 
+    const [loading,setLoading] = useState(false)
+    
   return (
     <div className="w-full max-w-md bg-white/90 backdrop-blur-sm border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
       <div className="px-8 py-10">
@@ -21,18 +24,23 @@ function Container() {
             src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
             className="mx-auto h-10 w-auto mb-4"
           />
-          <h1 className="text-2xl font-semibold text-slate-800">Sign in to your account</h1>
-          <p className="text-sm text-slate-500 mt-1">Welcome back — please enter your details to continue.</p>
+          <h1 className="text-2xl font-semibold text-slate-800">Sign out</h1>
+          <p className="text-sm text-slate-500 mt-1">see you next time.</p>
         </div>
 
-        <Form />
+        <div>
+        <button
+          type="submit"
+          className={`w-full inline-flex items-center justify-center py-2 rounded-lg text-sm font-medium text-white shadow-sm transition-colors ${loading ? 'bg-indigo-400 cursor-wait' : 'bg-indigo-600 hover:bg-indigo-700'}`}
+          disabled={loading}
+          onClick={()=> logout()}
+        >
+          {loading ? 'loggin out...' : 'Log out'}
+        </button>
+      </div>
 
-        <div className="mt-6 text-center text-sm text-slate-600">
-          <span>Don't have an account? </span>
-          <Link to="/signup" className="font-medium text-indigo-600 hover:text-indigo-700">
-            Create one
-          </Link>
-        </div>
+
+        
       </div>
 
       <div className="border-t border-slate-100 px-8 py-4 bg-gradient-to-t from-white/50">
@@ -49,7 +57,7 @@ function Form() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  const {login} = useAuth() 
+  const {logout} = useAuth() 
 
   function validate() {
     if (!email.trim()) return 'Email is required'
@@ -69,10 +77,10 @@ function Form() {
 
     setLoading(true)
     try {
-      await login(email, password)
-      navigate('/dashboard')
+      await Logout()
+      navigate('/login')
     } catch (err: any) {
-      setError(err?.message || 'Failed to sign in')
+      setError(err?.message || 'Failed to log out')
     } finally {
       setLoading(false)
     }
@@ -86,23 +94,7 @@ function Form() {
         </div>
       )}
 
-      <div>
-        <label className="block text-sm font-medium text-slate-700 mb-1">Email</label>
-        <div className="relative">
-          <span className="absolute inset-y-0 left-0 pl-3 flex items-center text-slate-400">
-            <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M2.94 6.06A2 2 0 014.34 5h11.32a2 2 0 011.4.06L10 10.94 2.94 6.06z" /><path d="M18 8.23V14a2 2 0 01-2 2H4a2 2 0 01-2-2V8.23l8 5.33 8-5.33z" /></svg>
-          </span>
-          <input
-            type="email"
-            className="block w-full pl-10 pr-3 py-2 border rounded-lg text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-500 transition"
-            placeholder="you@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            aria-label="Email"
-            required
-          />
-        </div>
-      </div>
+      
 
       <div>
         <label className="flex items-center justify-between text-sm font-medium text-slate-700 mb-1">
