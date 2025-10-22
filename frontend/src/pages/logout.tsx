@@ -15,6 +15,22 @@ function Container() {
     const {logout} = useAuth() 
     const [loading,setLoading] = useState(false)
     
+
+    function handleClick()
+    {
+        try{
+            setLoading(true)
+            logout()
+        }
+        catch(e )
+        {
+            console.log("an error ",e)
+        }
+        finally{
+            setLoading(false)
+        }
+    }
+
   return (
     <div className="w-full max-w-md bg-white/90 backdrop-blur-sm border border-white/10 rounded-2xl shadow-2xl overflow-hidden">
       <div className="px-8 py-10">
@@ -33,7 +49,7 @@ function Container() {
           type="submit"
           className={`w-full inline-flex items-center justify-center py-2 rounded-lg text-sm font-medium text-white shadow-sm transition-colors ${loading ? 'bg-indigo-400 cursor-wait' : 'bg-indigo-600 hover:bg-indigo-700'}`}
           disabled={loading}
-          onClick={()=> logout()}
+          onClick={handleClick}
         >
           {loading ? 'loggin out...' : 'Log out'}
         </button>

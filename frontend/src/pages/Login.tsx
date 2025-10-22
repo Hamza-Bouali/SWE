@@ -1,9 +1,18 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { useAuth } from '../services/useAuth' // added
+import { useAuth } from '../services/useAuth' 
+import { Navigate } from 'react-router-dom'
 
 
 export default function Login() {
+
+  const {user} = useAuth()
+
+  if(user)
+  {
+    return <Navigate to="/dashboard" replace />
+  }
+
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-gradient-to-br from-slate-50 to-slate-100">
       <Container />
