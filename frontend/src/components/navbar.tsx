@@ -1,43 +1,47 @@
-import { Link } from 'react-router-dom'
+import { Outlet } from 'react-router'
+import NavBar from './navbar'
 
-export default function NavBar() {
+export default function Layout() {
   return (
-    <div className="drawer-side">
-      <label htmlFor="my-drawer" aria-label="close sidebar" className="drawer-overlay"></label>
-      <ul className="menu p-4 w-64 min-h-full bg-base-200 text-base-content">
-        <li className="mb-2">
-          <div className="text-xl font-bold px-4 py-2">MyApp</div>
-        </li>
-        <li>
-          <Link to="/dashboard">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
-              <rect x="3" y="3" width="7" height="7"></rect>
-              <rect x="14" y="3" width="7" height="7"></rect>
-              <rect x="14" y="14" width="7" height="7"></rect>
-              <rect x="3" y="14" width="7" height="7"></rect>
-            </svg>
-            Dashboard
-          </Link>
-        </li>
-        <li>
-          <Link to="/projects">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
-              <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
-            </svg>
-            Projects
-          </Link>
-        </li>
-        <li className="mt-auto">
-          <Link to="/logout">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
-              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-              <polyline points="16 17 21 12 16 7"></polyline>
-              <line x1="21" x2="9" y1="12" y2="12"></line>
-            </svg>
-            Logout
-          </Link>
-        </li>
-      </ul>
+    <div className="drawer lg:drawer-open">
+      <input id="my-drawer" type="checkbox" className="drawer-toggle" />
+      
+      <div className="drawer-content flex flex-col min-h-screen bg-base-100">
+        {/* Mobile navbar */}
+        <div className="sticky top-0 z-30 flex h-16 w-full justify-center bg-base-300 shadow-sm lg:hidden">
+          <div className="navbar w-full">
+            <div className="flex-none">
+              <label htmlFor="my-drawer" className="btn btn-square btn-ghost">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block h-6 w-6 stroke-current">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+              </label>
+            </div>
+            <div className="flex-1">
+              <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                MyApp
+              </span>
+            </div>
+          </div>
+        </div>
+
+        {/* Main content */}
+        <main className="flex-1 p-4 lg:p-8">
+          <div className="mx-auto max-w-7xl">
+            <Outlet />
+          </div>
+        </main>
+
+        {/* Footer */}
+        <footer className="footer footer-center p-4 bg-base-300 text-base-content mt-auto">
+          <aside>
+            <p className="text-sm">© 2025 MyApp - All rights reserved</p>
+          </aside>
+        </footer>
+      </div>
+
+      {/* Sidebar */}
+      <NavBar />
     </div>
   )
 }
